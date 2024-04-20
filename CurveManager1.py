@@ -231,18 +231,3 @@ class CurveManager1:
         dx = 1/self.points_one_second_list[index]
         return max_diff_index+int(self.max_pressure_rise_start*self.points_one_second_list[index]),max_diff_value/dx/1000
     
-    # 将最大爆炸压力及最大升压速率写入csv文件
-    def writeCsvFile(self):
-        with open("max_values.csv",'w',newline='') as csvfile:
-             # 创建CSV写入器对象
-            csv_writer = csv.writer(csvfile)
-            # 循环写入数据列表中的每一行
-            for row in self.max_values:
-                csv_writer.writerow(row)
-            
-        with open("max_diff_values.csv",'w',newline='') as csvfile:
-             # 创建CSV写入器对象
-            csv_writer = csv.writer(csvfile)
-            # 循环写入数据列表中的每一行
-            for row in self.max_diff_values:
-                csv_writer.writerow(row)
