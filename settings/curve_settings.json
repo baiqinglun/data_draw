@@ -1,0 +1,75 @@
+{
+  "data_folder": "AIBN",
+  "file_names": [],
+  "data":{
+    "mass":[],
+    "start_row": 17,
+    "default_points_one_second": 100000,
+    "points_one_second_list":[]
+  },
+  "deal":{
+    "gaussian_filter_sigma": 30,
+    "unit": "kPa",
+    "time_rounded":6,
+    "rounded":4,
+    "max_diff_start":0.25,
+    "max_pressure_rise_start":0.4,
+    "max_pressure_rise_end":1.0,
+    "slice_start_list":[],
+    "default_slice_start":19256,
+    "modify_pressure_list":[41.95,43.85,40.45,39.69,38.68,36.92,33.89],
+    "default_modify_pressure":0
+  },
+  "text":{
+    "fontsize":10,
+    "ha":"right"
+  },
+  "font":{
+    "font_size": 40
+  },
+  "grid":{
+    "visible":true,
+    "linestyle":"--"
+  },
+  "xy_lim":{
+    "xlim":[50,500],
+    "ylim":[-100,900]
+  },
+  "line":{
+    "linewidth":5
+  },
+  "title":{
+    "label":"AIBN爆炸压力曲线",
+    "pad":30
+  },
+  "lengend":{
+    "ncol":2,
+    "bbox_to_anchor":[1, 1],
+    "prop":{"size": 30},
+    "loc":"upper right",
+    "fancybox":true,
+    "shadow":true
+  },
+  "xy_label":{
+    "x_label": "时间(ms)",
+    "y_label": "爆炸压力(kPa)",
+    "labelpad":15,
+    "fontweight":"bold"
+  },
+  "tick_param":{
+    "width":4,
+    "size":20,
+    "pad":10,
+    "labelsize":40,
+    "direction":"in"
+  },
+  "spines":{
+    "linewidth":4
+  },
+  "image":{
+    "is_show":true,
+    "size":[16,12],
+    "output_folder":"image",
+    "output_dpi": 300
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "data_file": "bar_data/AIBN.csv",
+  "deal":{
+    "gaussian_filter_sigma": 30,
+    "unit": "kPa",
+    "time_rounded":6,
+    "rounded":4,
+    "max_diff_start":0.25,
+    "max_pressure_rise_start":0.4,
+    "max_pressure_rise_end":1.0,
+    "slice_start_list":[],
+    "default_slice_start":0,
+    "modify_pressure_list":[],
+    "default_modify_pressure":0
+  },
+  "text":{
+    "fontsize":10,
+    "ha":"right",
+    "fontweight": "bold"
+  },
+  "font":{
+    "font_size": 40,
+    "fontweight":"bold"
+  },
+  "grid":{
+    "visible":true,
+    "linestyle":"--"
+  },
+  "xy_lim":{
+    "xlim":[-1,7],
+    "y1lim":[0,900],
+    "y2lim":[0,80]
+  },
+  "bar":{
+    "barwidth":0.4,
+    "color":["#3535a1","#a54242"]
+  },
+  "title":{
+    "label":"AIBN最大爆炸压力及最大升压速率",
+    "pad":20,
+    "fontweight":"bold"
+  },
+  "lengend":{
+    "ncol":1,
+    "bbox_to_anchor":[1, 1],
+    "prop":{"size": 28},
+    "loc":"upper right",
+    "fancybox":true,
+    "shadow":true
+  },
+  "xy_label":{
+    "x_label": "AIBN浓度",
+    "y1_label": "最大爆炸压力",
+    "y1_label_unit":"kPa",
+    "y2_label": "最大升压速率",
+    "y2_label_unit":"MPa/s",
+    "labelpad":10,
+    "fontweight":"bold"
+  },
+  "tick_param":{
+    "width":4,
+    "size":20,
+    "pad":10,
+    "labelsize":40,
+    "direction":"in"
+  },
+  "spines":{
+    "linewidth":4
+  },
+  "image":{
+    "is_show":true,
+    "size":[16,12],
+    "output_folder":"image",
+    "output_dpi": 300
+  },
+  "draw":{
+    "is_show_text":false
+  }
+}
