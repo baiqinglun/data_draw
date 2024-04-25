@@ -1,24 +1,32 @@
 {
-  "data_folder": "AIBN",
+    "uni_data":[
+      {
+        "name":"AIBN",
+        "modify_pressure_list":[41.95,43.85,40.45,39.69,38.68,36.92,33.89],
+        "slice_start_list":[19256,19256,19256,19256,19256,19256,19256],
+        "points_one_second_list":[100000,100000,100000,100000,100000,100000,100000],
+        "xy_lim":{
+          "xlim":[50,500],
+          "ylim":[-100,900]
+        },
+        "label":"AIBN爆炸压力曲线",
+        "ncol":1,
+        "gaussian_filter_sigma": 2,
+        "is_gas":false
+    }
+    ],
   "file_names": [],
   "data":{
     "mass":[],
-    "start_row": 17,
-    "default_points_one_second": 100000,
-    "points_one_second_list":[]
+    "start_row": 17
   },
   "deal":{
-    "gaussian_filter_sigma": 30,
     "unit": "kPa",
     "time_rounded":6,
     "rounded":4,
     "max_diff_start":0.25,
     "max_pressure_rise_start":0.4,
-    "max_pressure_rise_end":1.0,
-    "slice_start_list":[],
-    "default_slice_start":19256,
-    "modify_pressure_list":[41.95,43.85,40.45,39.69,38.68,36.92,33.89],
-    "default_modify_pressure":0
+    "max_pressure_rise_end":1.0
   },
   "text":{
     "fontsize":10,
@@ -28,31 +36,31 @@
     "font_size": 40
   },
   "grid":{
-    "visible":true,
-    "linestyle":"--"
+    "visible":false
   },
   "xy_lim":{
     "xlim":[50,500],
     "ylim":[-100,900]
   },
   "line":{
-    "linewidth":5
+    "linewidth":4
   },
   "title":{
-    "label":"AIBN爆炸压力曲线",
-    "pad":30
+    "pad":30,
+    "is_show":false
   },
   "lengend":{
     "ncol":2,
     "bbox_to_anchor":[1, 1],
-    "prop":{"size": 30},
+    "prop":{"size": 40},
     "loc":"upper right",
     "fancybox":true,
-    "shadow":true
+    "shadow":true,
+    "frameon":false
   },
   "xy_label":{
-    "x_label": "时间(ms)",
-    "y_label": "爆炸压力(kPa)",
+    "x_label": "时间（ms）",
+    "y_label": "爆炸压力（kPa）",
     "labelpad":15,
     "fontweight":"bold"
   },
@@ -67,7 +75,7 @@
     "linewidth":4
   },
   "image":{
-    "is_show":true,
+    "is_show":false,
     "size":[16,12],
     "output_folder":"image",
     "output_dpi": 300

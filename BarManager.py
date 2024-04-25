@@ -5,25 +5,26 @@ import numpy as np
 import json
 from tool import get_output_filename
 from matplotlib import rcParams
+from tqdm import tqdm
+from Colors import Color
 
 class BarManager:
     def __init__(self):
         with open('settings/bar_settings.json', 'r', encoding='UTF-8') as settings_file:
             settings_data = json.load(settings_file)
-            self.data_file = settings_data["data_file"]
+            self.uni_data = settings_data["uni_data"]
             self.font = settings_data["font"]
             self.image = settings_data["image"]
             self.bar = settings_data["bar"]
             self.xy_label = settings_data["xy_label"]
-            self.color = self.bar["color"]
             self.title = settings_data["title"]
             self.bar_width = self.bar["barwidth"]
             self.spines = settings_data["spines"]
-            self.xy_lim = settings_data["xy_lim"]
             self.tick_param = settings_data["tick_param"]
             self.grid = settings_data["grid"]
             self.lengend = settings_data["lengend"]
             self.draw = settings_data["draw"]
+            self.color = Color[2][8]
 
             # 中文使用宋体，英文使用新罗马字体
             config = {
@@ -42,15 +43,24 @@ class BarManager:
 
     # 运行
     def run(self):
-        self.read_file_data()
-        self.draw_figure()
-    
+        for one_data in tqdm(self.uni_data, desc="Processing CSV Files",unit="file"):
+            self.data_file = one_data["name"]
+            self.xy_label["x_label"] = one_data["x_label"]
+            self.xy_lim = one_data["xy_lim"]
+            self.title["label"] = one_data["label"]
+            self.is_x_label_unit = one_data["is_x_label_unit"]
+            
+            self.read_file_data()
+            self.draw_figure()
+        
     # 获取文件的数据
     def read_file_data(self):
         file_data = pd.read_csv(self.data_file)
         self.mass_list, self.max_origin_pressure_list,self.max_modify_pressure_list, self.max_pressure_rise_list\
             = file_data.iloc[:, 0:4].T.values
-        self.mass_list = np.trunc(self.mass_list).astype(int)
+        if self.is_x_label_unit:
+            self.mass_list = np.trunc(self.mass_list).astype(int)
+            
         self.max_pressure_list = [self.max_origin_pressure_list[i] - self.max_modify_pressure_list[i] \
             for i in range(len(self.max_origin_pressure_list))]
 
@@ -62,20 +72,16 @@ class BarManager:
         # 绘制第一个y轴的柱状图
         bars1 = ax1.bar([i - self.bar_width/2 for i in self.x],height=self.max_pressure_list,width=self.bar_width,\
             label=self.xy_label["y1_label"],align='center',color=self.color[0])
-        ax1.set_xlabel(self.xy_label["x_label"]+"($\mathrm{g/m^{3}}$)")
-        ax1.set_ylabel(f'{self.xy_label["y1_label"]}({self.xy_label["y1_label_unit"]})',\
-        # ax1.set_ylabel(self.xy_label["y1_label"]+"($\mathrm{MPa/s}$)",\
+        if self.is_x_label_unit:
+            ax1.set_xlabel(self.xy_label["x_label"]+"（$\mathrm{g/m^{3}}$）")
+        else:
+            ax1.set_xlabel(self.xy_label["x_label"])
+        ax1.set_ylabel(f'{self.xy_label["y1_label"]}（{self.xy_label["y1_label_unit"]}）',\
             labelpad=self.xy_label["labelpad"]-2,color=self.color[0])
         ax1.tick_params(axis='x', direction='in')
         ax1.tick_params(axis='y', labelcolor=self.color[0], color=self.color[0], direction='in')
         ax1.spines['left'].set_color(self.color[0])
         ax1.spines['right'].set_color(self.color[1])
-        x1_tick_labels = ax1.get_xticklabels()
-        for x1_label in x1_tick_labels:
-            x1_label.set_weight("bold")
-        y1_tick_labels = ax1.get_xticklabels()
-        for y1_label in y1_tick_labels:
-            y1_label.set_weight("bold")
         if self.draw["is_show_text"]:
             for x_pos, height in zip(self.x, self.max_pressure_list):
                 ax1.annotate(f'{height:.2f}', (x_pos, height), ha='center', va='bottom', fontsize=20,color=self.color[0])
@@ -84,19 +90,12 @@ class BarManager:
         ax2 = ax1.twinx()
         bars2 = ax2.bar([i + self.bar_width/2 for i in self.x], self.max_pressure_rise_list,self.bar_width,\
             label=self.xy_label["y2_label"],align='center',color=self.color[1])
-        ax2.set_ylabel(f'{self.xy_label["y2_label"]}({self.xy_label["y2_label_unit"]})',\
+        ax2.set_ylabel(f'{self.xy_label["y2_label"]}（{self.xy_label["y2_label_unit"]}）',\
             labelpad=self.xy_label["labelpad"],color=self.color[1])
         ax2.tick_params(axis='y', labelcolor=self.color[1], color=self.color[1], direction='in')
         ax2.spines['left'].set_color(self.color[0])
         ax2.spines['right'].set_color(self.color[1])
         x2_tick_labels = ax2.get_xticklabels()
-        for x2_label in x2_tick_labels:
-            print(type(x2_label))
-            x2_label.set_weight(100)
-        y2_tick_labels = ax2.get_yticklabels()
-        for y2_label in y2_tick_labels:
-            print(y2_label)
-            y2_label.set_weight("bold")
         # 调整右侧y轴标题与刻度线的位置
         if self.draw["is_show_text"]:
             for x_pos, height in zip(self.x, self.max_pressure_rise_list):
@@ -110,7 +109,9 @@ class BarManager:
         labels = labels1 + labels2
         legend = plt.legend(lines, labels,bbox_to_anchor=self.lengend["bbox_to_anchor"],\
                 prop=self.lengend["prop"],loc=self.lengend["loc"],ncol=self.lengend["ncol"],\
-                fancybox=self.lengend["fancybox"],shadow=self.lengend["shadow"])
+                fancybox=self.lengend["fancybox"],shadow=self.lengend["shadow"],frameon=self.lengend["frameon"])
+        for index,text in enumerate(legend.get_texts()):
+            text.set_color(self.color[index])  # 设置文字颜色为红色
         # legend.get_frame().set_facecolor('lightgray')  # 设置背景颜色
         # legend.get_frame().set_alpha(0.4)  # 设置透明度
         # ax1.set_xticks(self.x + self.bar["barwidth"] / 2, self.mass_list)

@@ -1,1 +1,1 @@
-C:/Users/23984/.conda/envs/py-data-deal/python.exe d:/Desktop/data_deal2/main.py && pause
+C:/Users/23984/.conda/envs/py-data-deal/python.exe Main.py && pause
